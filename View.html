@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+     
+<head>
+    
+<title>view</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+</head>
+<body>
+        
+<style type="text/css">
+        
+        /* styling to apply for all elements*/
+            *{
+                box-sizing: border-box; /*element padding and border are included in the width and height for all css boxes*/
+                font-family: "Arial";/*set font for all css elements*/
+                }
+
+        /* style header*/
+        .header {
+                padding: 10px 20px 10px; /* add padding*/
+                text-align: center; 
+                background-color: #CECACA;
+                color: black; 
+                text-align: left; 
+                }
+
+        /* Increase the font size of the <h1> element */
+        .header h1 {
+                font-size: 50px;
+                }
+    
+        /* format the links in header*/
+        .header a  {
+                color: black; 
+                text-decoration: none; /* Remove underline */
+                }
+    
+        /* Navigation bar */
+        .navbar {
+                overflow: hidden; /* Hide overflow */
+                background-color: #333; /* Dark background color */
+                }
+
+        /* Navigation bar links */
+        .navbar a {
+                float: left; /* justify tot he left */
+                display: block; /* block, for responsiveness */
+                color: white; 
+                text-align: center; 
+                padding: 14px 20px; /* Add padding */
+                text-decoration: none; /* Remove underline */
+                }
+
+        /* Change color on hover/mouse-over */
+        .navbar a:hover {
+                background-color: #ddd; 
+                color: black; 
+                }
+       
+
+        /* Main content*/
+        .main { 
+                background-color: white; 
+                padding: 16px; 
+                height: 1000px;
+                }
+    
+        /* form styling*/
+        input, select,  {
+                  width: 200px;
+                  padding: 12px 20px;
+                  margin: 8px 0;
+                  box-sizing: border-box;
+                  font-size: 16px;
+                }
+    
+        textarea  {
+                  width: 600px;
+                  padding: 12px 20px;
+                  box-sizing: border-box;
+                  font-size: 16px;
+                }
+    
+        /* style the footer*/
+        .footer {
+                display: grid;
+                grid-template-rows: 80px;
+                grid-template-columns: auto auto auto;
+                padding: 1px; 
+                text-align: center; 
+                background: #333; 
+                color: white; 
+                }
+    
+        /* style the footer links*/
+        .footer a {
+                color: white; 
+                }
+        /* style the footer text*/
+        .footer p {
+                color: white; 
+                padding: 20px
+                }
+        
+    </style>
+    
+    <!–– header title including home link ––> 
+    
+    <div class="header">
+    <h1><a href="Home.html">Task Recording</a></h1>   
+    </div> 
+    
+    <!–– navigation bar links ––> 
+    <div class="navbar">
+    <a href="Home.html">Home</a>
+    <a href="Entry.html">New Task</a>
+    <a href="View.html">View Tasks</a>
+    <a href="Users.html">Users</a>
+    </div>
+    
+
+    <div class="main">
+    <h2>View Tasks</h2>
+
+  
+
+    <form id='viewForm'>
+    User:<br><select name="user">
+        <option value=""></option>
+        <option value="Stephanie">Stephanie</option>
+        <option value="Edmond">Edmond</option>
+        <option value="Alex">Alex</option>
+        <option value="George">George</option>
+        <option value="Sally">Sally</option>
+        <option value="Other">Other</option>
+        </select><br><br>
+    <button type="button" id="doViewButton" onclick="doView()">View</button><br><br>
+    </form>  
+           
+    <table class="table" id="taskTable" style="display: none" >
+        <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Date</th>
+        <th>Task Type</th>
+        <th>Reports submitted</th>
+        <th>Tests Completed</th>
+        <th>Daily Report</th>
+        <th>Notes</th>
+        <th></th>
+        </tr>
+        
+    </table>
+        
+    <button type="button" id="finishButton" onclick="window.location.href = 'Home.html'" style="display: none">Finish</button><br>
+    </div>
+       
+    <!–– footer information ––> 
+    <div class="footer">
+    <p>Tom Mirrington</p>
+    <p>Data Representation</p>
+    <p>Contact: <a href="G00364800@gmit.ie">G00364800@gmit.ie</a>.</p>
+    </div>
+        
+</body>
+    
+<script>
+
+    
+
+        function clearForm(){
+        var form = document.getElementById('viewForm')
+        form.querySelector('select[name="user"]').value=''
+    }
+    
+        function addTaskToTable(task){
+        var tableElement = document.getElementById('taskTable')
+        var rowElement = tableElement.insertRow(-1)
+        rowElement.setAttribute('id',task.id)
+        var cell1 = rowElement.insertCell(0);
+        cell1.innerHTML = task.id
+        var cell2 = rowElement.insertCell(1);
+        cell2.innerHTML = task.user
+        var cell3 = rowElement.insertCell(2);
+        cell3.innerHTML = task.task_date
+        var cell4 = rowElement.insertCell(3);
+        cell4.innerHTML = task.task_type
+        var cell5 = rowElement.insertCell(4);
+        cell5.innerHTML = task.reports_submitted
+        var cell6 = rowElement.insertCell(5);
+        cell6.innerHTML = task.tests_completed
+        var cell7 = rowElement.insertCell(6);
+        cell7.innerHTML = task.daily_report
+        var cell8 = rowElement.insertCell(7);
+        cell8.innerHTML = task.notes   
+    }
+    
+        function doDelete(r){
+        var tableElement = document.getElementById('taskTable');
+        var rowElement = r.parentNode.parentNode;
+        var index = rowElement.rowIndex;
+        deleteTaskAjax(rowElement.getAttribute("id"));
+        tableElement.deleteRow(index);
+    }
+    
+        function deleteTaskAjax(id){
+        
+        //console.log(JSON.stringify('deleting '+id));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/tasks/"+encodeURI(id),
+            "method":"DELETE",
+            "data":"",
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+                //console.log(result);
+                  
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    
+
+        function doView(){
+            var form = document.getElementById('viewForm')
+            var user = form.querySelector('select[name="user"]').value
+
+            getUserTasksAjax(user)
+        }
+ 
+        function getUserTasksAjax(user){
+        $.ajax({
+            "url": "http://127.0.0.1:5000/tasks/" + encodeURI(user),
+            "method":"GET",
+            "data":"",
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+//                task.id = result.id
+                for (task of result){
+                addTaskToTable(task);
+                }
+                document.getElementById("taskTable").style.display="block";
+                document.getElementById("finishButton").style.display="block"
+                clearForm()
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+        }
+        });
+        }
+    
+
+</script>
+
+</html>

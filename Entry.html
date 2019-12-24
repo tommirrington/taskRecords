@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+     
+<head>
+    
+<title>entry</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+</head>
+<body>
+        
+<style type="text/css">
+        
+        /* styling to apply for all elements*/
+            *{
+                box-sizing: border-box; /*element padding and border are included in the width and height for all css boxes*/
+                font-family: "Arial";/*set font for all css elements*/
+                }
+
+        /* style header*/
+        .header {
+                padding: 10px 20px 10px; /* add padding*/
+                text-align: center; 
+                background-color: #CECACA;
+                color: black; 
+                text-align: left; 
+                }
+
+        /* Increase the font size of the <h1> element */
+        .header h1 {
+                font-size: 50px;
+                }
+    
+        /* format the links in header*/
+        .header a  {
+                color: black; 
+                text-decoration: none; /* Remove underline */
+                }
+    
+        /* Navigation bar */
+        .navbar {
+                overflow: hidden; /* Hide overflow */
+                background-color: #333; /* Dark background color */
+                }
+
+        /* Navigation bar links */
+        .navbar a {
+                float: left; /* justify tot he left */
+                display: block; /* block, for responsiveness */
+                color: white; 
+                text-align: center; 
+                padding: 14px 20px; /* Add padding */
+                text-decoration: none; /* Remove underline */
+                }
+
+        /* Change color on hover/mouse-over */
+        .navbar a:hover {
+                background-color: #ddd; 
+                color: black; 
+                }
+       
+
+        /* Main content*/
+        .main { 
+                background-color: white; 
+                padding: 16px; 
+                height: 1000px;
+                }
+    
+        /* form styling*/
+        input, select,  {
+                  width: 200px;
+                  padding: 12px 20px;
+                  margin: 8px 0;
+                  box-sizing: border-box;
+                  font-size: 16px;
+                }
+    
+        textarea  {
+                  width: 600px;
+                  padding: 12px 20px;
+                  box-sizing: border-box;
+                  font-size: 16px;
+                }
+    
+        /* style the footer*/
+        .footer {
+                display: grid;
+                grid-template-rows: 80px;
+                grid-template-columns: auto auto auto;
+                padding: 1px; 
+                text-align: center; 
+                background: #333; 
+                color: white; 
+                }
+    
+        /* style the footer links*/
+        .footer a {
+                color: white; 
+                }
+        /* style the footer text*/
+        .footer p {
+                color: white; 
+                padding: 20px
+                }
+        
+    </style>
+    
+    <!–– header title including home link ––> 
+    
+    <div class="header">
+    <h1><a href="home.html">Task Recording</a></h1>   
+    </div> 
+    
+    <!–– navigation bar links ––> 
+    <div class="navbar">
+    <a href="Home.html">Home</a>
+    <a href="Entry.html">New Task</a>
+    <a href="View.html">View Tasks</a>
+    <a href="Users.html">Users</a>
+    </div>
+    
+    <div class="main">
+    <h2>New Record</h2>
+
+  
+    <!–– Create form ––> 
+    <form id='createForm'>
+    User:<br><select name="user">
+        <option value=""></option>
+        <option value="Stephanie">Stephanie</option>
+        <option value="Edmond">Edmond</option>
+        <option value="Alex">Alex</option>
+        <option value="George">George</option>
+        <option value="Sally">Sally</option>
+        <option value="Other">Other</option>
+        </select><br>
+    Task Date:<br> <input type="date" name="task_date"><br>
+    Task Type:<br> <select name="task_type">
+        <option value=""></option>
+        <option value="Line">Line</option>
+        <option value="Stop">Stop</option>
+        <option value="Random">Random</option>
+        <option value="Other">Other</option>
+        </select><br>
+    Reports Submitted:<br><input type="number" name="reports_submitted" min="0" max="100"><br>
+    Tests Completed:<br><input type="number" name="tests_completed" min="0" max="100"><br>
+    Daily Report:<br><textarea name="daily_report" ></textarea><br><br>
+    Notes:<br><textarea name="notes" ></textarea><br>
+    <button type="button" id="doCreateButton" onclick="doCreate()">Create</button><br>
+    </form>  
+        
+
+    <!–– Create table ––> 
+    <table class="table" id="taskTable" style="display: none" >
+        <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Date</th>
+        <th>Task Type</th>
+        <th>Reports submitted</th>
+        <th>Tests Completed</th>
+        <th>Daily Report</th>
+        <th>Notes</th>
+        <th></th>
+        </tr>
+        
+    </table>
+        
+    <button type="button" id="finishButton" onclick="window.location.href = 'Home.html'" style="display: none">Finish</button><br>
+    </div>
+    
+  
+    
+    <!–– footer information ––> 
+    <div class="footer">
+    <p>Tom Mirrington</p>
+    <p>Data Representation</p>
+    <p>Contact: <a href="G00364800@gmit.ie">G00364800@gmit.ie</a>.</p>
+    </div>
+        
+</body>
+    
+<script>
+//function to create tasks
+        function doCreate(){
+        var form = document.getElementById('createForm')
+        var task = {}
+       
+        task.user = form.querySelector('select[name="user"]').value
+        task.task_date = form.querySelector('input[name="task_date"]').value
+        task.task_type = form.querySelector('select[name="task_type"]').value
+        task.reports_submitted = Number(form.querySelector('input[name="reports_submitted"]').value)
+        task.tests_completed = Number(form.querySelector('input[name="tests_completed"]').value)
+        task.daily_report = form.querySelector('textarea[name="daily_report"]').value
+        task.notes = form.querySelector('textarea[name="notes"]').value
+        console.log(JSON.stringify(task))
+        createTaskAjax(task)
+        
+        
+    }
+    
+//function to send creata ajax request
+    function createTaskAjax(task){
+        console.log(JSON.stringify(task));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/tasks",
+            "method":"POST",
+            "data":JSON.stringify(task),
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+//                console.log(result)
+                task.id = result.id
+                addTaskToTable(task)
+                document.getElementById("taskTable").style.display="block";
+                document.getElementById("finishButton").style.display="block";
+//                clearForm()
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    
+        function clearForm(){
+        var form = document.getElementById('createForm')
+        form.querySelector('input[name="user"]').value=''
+        form.querySelector('input[name="task_date"]').value=''
+        form.querySelector('select[name="task_type"]').value=''
+        form.querySelector('input[name="reports_submitted"]').value=''
+        form.querySelector('input[name="tests_completed"]').value=''
+        form.querySelector('textarea[name="daily_report"]').value=''
+        form.querySelector('textarea[name="notes"]').value=''
+    }
+    
+        function addTaskToTable(task){
+        var tableElement = document.getElementById('taskTable')
+        var rowElement = tableElement.insertRow(-1)
+        rowElement.setAttribute('id',task.id)
+        var cell1 = rowElement.insertCell(0);
+        cell1.innerHTML = task.id
+        var cell2 = rowElement.insertCell(1);
+        cell2.innerHTML = task.user
+        var cell3 = rowElement.insertCell(2);
+        cell3.innerHTML = task.task_date
+        var cell4 = rowElement.insertCell(3);
+        cell4.innerHTML = task.task_type
+        var cell5 = rowElement.insertCell(4);
+        cell5.innerHTML = task.reports_submitted
+        var cell6 = rowElement.insertCell(5);
+        cell6.innerHTML = task.tests_completed
+        var cell7 = rowElement.insertCell(6);
+        cell7.innerHTML = task.daily_report
+        var cell8 = rowElement.insertCell(7);
+        cell8.innerHTML = task.notes   
+        var cell9 = rowElement.insertCell(8);
+        cell9.innerHTML = '<button onclick=doDelete(this)>delete</button>'
+    }
+    
+        function doDelete(r){
+        var tableElement = document.getElementById('taskTable');
+        var rowElement = r.parentNode.parentNode;
+        var index = rowElement.rowIndex;
+        deleteTaskAjax(rowElement.getAttribute("id"));
+        tableElement.deleteRow(index);
+    }
+    
+        function deleteTaskAjax(id){
+        
+        //console.log(JSON.stringify('deleting '+id));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/tasks/"+encodeURI(id),
+            "method":"DELETE",
+            "data":"",
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+                //console.log(result);
+                  
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+        }
+    
+</script>
+
+</html>
